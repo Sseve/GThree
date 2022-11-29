@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "../service;service";
+
+service Zone {
+    // 区服操作
+    rpc OptZone (ZoneRequest) returns (ZoneReply) {}
+}
+
+message ZoneRequest {
+    string name = 1;
+    string ip = 2;
+    uint32 zid = 3;
+    string target = 4;
+}
+
+message ZoneReply {
+    string result = 1;
+    string name = 2;
+    uint32 zid = 3;
+    string target = 4;
+    string ip = 5;
+}

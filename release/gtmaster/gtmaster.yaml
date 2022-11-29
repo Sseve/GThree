@@ -1,0 +1,43 @@
+---
+## gtmaster的配置文件
+
+# agtmaster运行模式[true|false]
+app_debug: false
+# app监听地址
+app_addr: 0.0.0.0:8888
+# 远程调用端口
+app_rpc_port: :8887
+# app http读写超时时间
+app_read_timeout: 10
+app_write_timeout: 10
+# app jwt key
+app_jwt_key: gthree123456
+# app证书
+app_ca_pem: ./cert/ca.pem
+app_pem_file: ./cert/client.pem
+app_key_file: ./cert/client.key
+# 生成证书时填写的域名
+app_serv_name: www.test.gthree.com
+
+# jwt过期时间[小时]
+app_jwt_timeout: 24
+# app ip访问访问白名单(在此列表中的ip,才能访问此应用)
+app_white_ips:
+  - 127.0.0.1
+  - 172.16.9.126
+# app接口白名单(在此列表中的uri,不需要验证token,直接放行)
+app_white_api:
+  - /api/sign
+  - /api/user/admin
+  - /api/user
+  - /api/zone
+  # - /api/host
+  
+# 数据库地址
+db_url: mongodb://127.0.0.1:27017
+# 数据库名
+db_name: gthree
+# 数据库连接池大小
+db_pool_size: 10
+# 数据库连接超时时间
+db_contect_timeout: 10
