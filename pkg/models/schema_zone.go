@@ -1,10 +1,11 @@
 package models
 
 type Zone struct {
-	Targt string `json:"target" binding:"required"`
-	ZId   uint32 `json:"zid" binding:"required"`
-	Ip    string `json:"ip" binding:"required"`
-	Name  string `json:"name" binding:"required"`
+	Targt      string `json:"target" binding:"required"`
+	ZId        string `json:"zid" binding:"required"`
+	Ip         string `json:"ip" binding:"required"`
+	Name       string `json:"name" binding:"required"`
+	SvnVersion uint   `json:"svnversion"`
 }
 
 type ZoneOpt struct {

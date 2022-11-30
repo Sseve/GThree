@@ -12,14 +12,15 @@ service Zone {
 message ZoneRequest {
     string name = 1;
     string ip = 2;
-    uint32 zid = 3;
+    string zid = 3;
     string target = 4;
+    uint32 svnVersion = 5;
 }
 
 message ZoneReply {
     string result = 1;
     string name = 2;
-    uint32 zid = 3;
+    string zid = 3;
     string target = 4;
     string ip = 5;
 }

@@ -3,8 +3,17 @@
 
 # app监听地址
 app_addr: 0.0.0.0:8887
-
 # app证书
 app_ca_pem: ./cert/ca.pem
 app_pem_file: ./cert/server.pem
 app_key_file: ./cert/server.key
+
+#svn配置
+svn_address: http://127.0.0.1/test
+svn_username: xxxx
+svn_password: yyyy
+
+#区服配置
+zone_path: /data/game/
+zone_script: game_opt.sh
+zone_bin_addr: http://172.16.9.127:8888/binfile

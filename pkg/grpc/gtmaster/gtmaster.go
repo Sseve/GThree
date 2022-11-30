@@ -15,10 +15,8 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-var ZoneResult = make(chan ZoneResponse, 2)
-
 type ZoneResponse struct {
-	Zid    uint32
+	Zid    string
 	Ip     string
 	Name   string
 	Target string
@@ -26,7 +24,7 @@ type ZoneResponse struct {
 }
 
 // 该函数的参数为区服信息
-func CallServant(zone models.Zone) {
+func CallServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 	// 加入认证
 	cert, _ := tls.LoadX509KeyPair(viper.GetString("app_pem_file"), viper.GetString("app_key_file"))
 	certPool := x509.NewCertPool()

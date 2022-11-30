@@ -4,7 +4,6 @@ import (
 	"GThree/pkg/grpc/gtmaster"
 	"GThree/pkg/models"
 	"GThree/pkg/utils"
-	"fmt"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -22,27 +21,27 @@ func NewZone() *zone {
 func (z *zone) Manage(ctx *gin.Context) {
 	// 获取接口数据
 	if err := ctx.BindJSON(&z.MZOpt); err != nil {
-		utils.Falured(ctx, "获取区服接口数据失败", nil)
+		utils.Falured(ctx, "获取区服接口数据失败", err)
 		return
 	}
 	// 数据入库
 
 	// 远程调用
 	var wg sync.WaitGroup
+	num := len(z.MZOpt.Zone)
+	ZoneResult := make(chan gtmaster.ZoneResponse, num)
+	wg.Add(num)
 	for _, zone := range z.MZOpt.Zone {
-		wg.Add(1)
-		go gtmaster.CallServant(zone)
+		go gtmaster.CallServant(zone, ZoneResult)
 	}
-	data := make([]gtmaster.ZoneResponse, 0, len(z.MZOpt.Zone))
+	data := make([]gtmaster.ZoneResponse, 0, num)
 	go func() {
 		for {
-			zoneResp := <-gtmaster.ZoneResult
-			data = append(data, zoneResp)
+			data = append(data, <-ZoneResult)
 			wg.Done()
 		}
 	}()
 	wg.Wait()
-	fmt.Println(data)
 	// 成功返回
 	utils.Success(ctx, "区服操作成功", data)
 }
