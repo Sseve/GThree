@@ -14,13 +14,15 @@
 * *部署*
 ```
   运行build.sh后在release目录下生对应文件
-  分别将release目录下的文件部署到运维服和游戏服
+  分别将release目录下的文件部署到运维服和游戏服(具体参照release目录下的文件结构)
   将gtmaster二进制文件部署到运维服(目录结构):
     gtmaster/
+    ├── cert/
     ├── gtmaster
     └── gtmaster.yaml
   将gtservant二进制文件部署到游戏服(目录结构):
     gtservant/
+    ├── cert/
     ├── gtservant
     └── gtservant.yaml
 ```
