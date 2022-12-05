@@ -5,7 +5,7 @@ type Zone struct {
 	ZId        string `json:"zid" binding:"required"`
 	Ip         string `json:"ip" binding:"required"`
 	Name       string `json:"name" binding:"required"`
-	SvnVersion uint   `json:"svnversion"`
+	SvnVersion uint64 `json:"svnversion" binding:"required"`
 }
 
 type ZoneOpt struct {

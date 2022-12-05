@@ -37,7 +37,9 @@ func CallServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 	})
 
 	address := zone.Ip + viper.GetString("app_rpc_port")
-	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(creds))
+	ctx1, cancel := context.WithTimeout(context.Background(), time.Second*60)
+	defer cancel()
+	conn, err := grpc.DialContext(ctx1, address, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Println("Call gtservant failed: ", err)
 	}
@@ -45,11 +47,11 @@ func CallServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 
 	c := service.NewZoneClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx2, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	// 请求grpc
-	resp, err := c.OptZone(ctx, &service.ZoneRequest{Ip: zone.Ip, Zid: zone.ZId, Name: zone.Name, Target: zone.Targt})
+	resp, err := c.OptZone(ctx2, &service.ZoneRequest{Ip: zone.Ip, Zid: zone.ZId, Name: zone.Name, Target: zone.Targt, SvnVersion: zone.SvnVersion})
 	if err != nil {
 		log.Println("Request gtservant failed: ", err)
 	}

@@ -10,8 +10,8 @@ app_key_file: ./cert/server.key
 
 #svn配置
 svn_address: http://127.0.0.1/test
-svn_username: xxxx
-svn_password: yyyy
+svn_username: username
+svn_password: password
 
 #区服配置
 zone_path: /data/game/

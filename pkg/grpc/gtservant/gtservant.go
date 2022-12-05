@@ -2,6 +2,7 @@ package gtservant
 
 import (
 	"GThree/pkg/grpc/service"
+	"GThree/pkg/utils"
 	"context"
 	"crypto/tls"
 	"crypto/x509"
@@ -22,13 +23,14 @@ type gtservantServer struct {
 }
 
 func addZone(gmPath string, in *service.ZoneRequest) (string, error) {
-	if err := os.MkdirAll(gmPath, os.ModePerm); err != nil {
+	if err := os.MkdirAll(gmPath, 0755); err != nil {
 		log.Println("create game path failed: ", err)
 		return "", err
 	}
 	cmd := fmt.Sprintf(`cd %v && svn --username %v --password %v co %v -r %v . |grep "Checked out revision"`,
 		gmPath, viper.GetString("svn_username"), viper.GetString("svn_password"), viper.GetString("svn_address"),
 		in.SvnVersion)
+	fmt.Println(cmd)
 	return runCommand(cmd)
 }
 
@@ -43,8 +45,13 @@ func binZone(gmPath string, in *service.ZoneRequest) (string, error) {
 }
 
 func conZone(gmPath string, in *service.ZoneRequest) (string, error) {
-	cmd := fmt.Sprintf(`cd %v && svn --username %v --password %v update -r %v | grep "Updated to revision" `,
+	cmd := fmt.Sprintf(`cd %v && svn --username %v --password %v update -r %v | grep "At revision" `,
 		gmPath, viper.GetString("svn_username"), viper.GetString("svn_password"), in.SvnVersion)
+	return runCommand(cmd)
+}
+
+func infoZone(gmPath string) (string, error) {
+	cmd := fmt.Sprintf(`cd %v && svn info|grep "Revision:"`, gmPath)
 	return runCommand(cmd)
 }
 
@@ -67,14 +74,17 @@ func (g *gtservantServer) OptZone(ctx context.Context, in *service.ZoneRequest) 
 		// 更新配置文件
 		cmdOut, err = conZone(gmPath, in)
 		// cmdOut = "更新配置文件成功"
+	} else if in.Target == "info" {
+		cmdOut, err = infoZone(gmPath)
 	} else {
 		cmdOut, err = manageZone(gmPath, in)
 		// cmdOut = fmt.Sprintf("%v %v %v 成功", in.Name, in.Zid, in.Target)
 	}
-
 	if err != nil {
+		utils.Logger.Info(err)
 		return &service.ZoneReply{Zid: in.Zid, Name: in.Name, Result: fmt.Sprintf("%v", err)}, nil
 	} else {
+		utils.Logger.Info(cmdOut)
 		return &service.ZoneReply{Zid: in.Zid, Name: in.Name, Result: fmt.Sprintf("%v", cmdOut)}, nil
 	}
 
@@ -85,7 +95,7 @@ func runCommand(command string) (string, error) {
 	cmd := exec.Command("/bin/bash", "-c", command)
 	out, err := cmd.Output()
 	if err != nil {
-		log.Println(string(out), err)
+		log.Println("运行指定命令出错: ", err)
 		return "", err
 	}
 	return string(out), nil

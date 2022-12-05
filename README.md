@@ -1,26 +1,29 @@
 ## GThree
 
 * *描述*
-* > GThree是一个多区服游戏运维工具,可以进行游戏区服的更新,启停,状态检查等。
-* > 技术栈: golang + gin + grpc
-* > server & client架构:
-* >> gtmaster接受web请求, 并通过grpc将请求转发到gtservant进行业务处理(多节点区服处理)
-
+```
+  GThree是一个多区服游戏运维工具,可以进行游戏区服的更新,启停,状态检查等。
+  技术栈: golang + gin + grpc
+  server & client架构:
+  gtmaster接受web请求, 并通过grpc将请求转发到gtservant进行业务处理(多节点区服处理)
+```
 * *进度*
-* > 开发中...
-
+```
+  开发中...
+```
 * *部署*
-* > 运行build.sh后在release目录下生对应文件
-* > 分别将release目录下的文件部署到运维服和游戏服
-* > 将gtmaster二进制文件部署到运维服(目录结构):
-* >> gtmaster/
-* >> ├── gtmaster
-* >> └── gtmaster.yaml
-* > 将gtservant二进制文件部署到游戏服(目录结构):
-* >> gtservant/
-* >> ├── gtservant
-* >> └── gtservant.yaml
-
+```
+  运行build.sh后在release目录下生对应文件
+  分别将release目录下的文件部署到运维服和游戏服
+  将gtmaster二进制文件部署到运维服(目录结构):
+    gtmaster/
+    ├── gtmaster
+    └── gtmaster.yaml
+  将gtservant二进制文件部署到游戏服(目录结构):
+    gtservant/
+    ├── gtservant
+    └── gtservant.yaml
+```
 
 <!-- 
 * *生成grpc相关代码*

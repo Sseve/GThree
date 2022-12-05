@@ -36,15 +36,15 @@ gtservant() {
 }
 
 case "$1" in
-    server)
+    master)
         gtmaster server
         ;;
-    client)
+    servant)
         gtservant client
         ;;
     *)
     echo "Usage: $0 [server|client]"
-    echo "    server    构建gtmaster服务"
-    echo "    client    构建gtservant服务"    
+    echo "    master     构建gtmaster服务"
+    echo "    servant    构建gtservant服务"    
     exit 1
 esac

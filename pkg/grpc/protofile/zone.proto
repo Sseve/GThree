@@ -14,7 +14,7 @@ message ZoneRequest {
     string ip = 2;
     string zid = 3;
     string target = 4;
-    uint32 svnVersion = 5;
+    uint64 svnVersion = 5;
 }
 
 message ZoneReply {
