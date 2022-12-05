@@ -1,0 +1,48 @@
+# 接口参数
+user api
+uri => /api/sign  method: post
+{
+    "name": "admin",
+    "password": "admin"
+}
+
+uri => /api/user  method: post
+{
+    "name": "admin",
+    "pass_one": "admin123",
+    "pass_tow": "admin123",
+    "desc": "管理员",
+    "roles": ["root", "yunwei"],
+    "avatar": "xxxx"
+}
+
+url => /api/user/:name  method: delete
+
+
+zone api
+uri => /api/zone  method: post
+target: [add, bin, con, start, stop, check, info]
+{
+    "zone": [
+        {
+            "target": "info",
+            "zid": "1",
+            "name": "test_syf",
+            "ip": "172.16.9.128",
+            "svnversion": 654
+        },
+        {
+            "target": "info",
+            "zid": "2",
+            "name": "test_syf",
+            "ip": "172.16.9.128",
+            "svnversion": 654
+        },{
+            "target": "info",
+            "zid": "3",
+            "name": "test_syf",
+            "ip": "172.16.9.128",
+            "svnversion": 654
+        }
+    ]
+}

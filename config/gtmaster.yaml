@@ -21,7 +21,7 @@ app_serv_name: www.test.gthree.com
 
 # jwt过期时间[小时]
 app_jwt_timeout: 24
-# app ip访问访问白名单(在此列表中的ip,才能访问此应用)
+# app ip访问白名单(在此列表中的ip,才能访问此应用)
 app_white_ips:
   - 127.0.0.1
   - 172.16.9.126
