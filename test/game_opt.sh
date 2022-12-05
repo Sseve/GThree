@@ -69,13 +69,6 @@ gs_reload() {
     fi
 }
 
-
-# �����Ϸ״̬ 
-gs_ss() {
-    gs_ck
-}
-
-
 case "$1" in
     start)
         gs_st
@@ -87,7 +80,7 @@ case "$1" in
 	gs_reload
    	 ;;
     check)
-        gs_ss
+        gs_ck
         ;;
     *)
     echo $"Usage: $0 {start|stop|check}"
