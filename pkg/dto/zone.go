@@ -1,23 +1,24 @@
 package dto
 
+// 区服数据库模型
 type DZone struct {
 	Zid  uint
 	Ip   string
 	Name string
 }
 
-func (dz *DZone) AddToDb() {
+func AddZoneToDb() {
 
 }
 
-func (dz *DZone) DelFromDb() {
+func DelZoneFromDb() {
 
 }
 
-func (dz *DZone) UptToDb() {
+func UptZoneToDb() {
 
 }
 
-func (dz *DZone) SelectFromDb() {
+func SelectZoneFromDb() {
 
 }

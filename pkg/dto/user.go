@@ -11,6 +11,7 @@ import (
 	// "gopkg.in/mgo.v2"
 )
 
+// 用户数据库模型
 type DUser struct {
 	Name       string
 	Password   string

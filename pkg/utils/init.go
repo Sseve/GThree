@@ -7,6 +7,7 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -40,19 +41,6 @@ func InitConfig(name string) {
 }
 
 func InitDatabase() {
-	// clientOptions := options.Client().ApplyURI(viper.GetString("db_url"))
-	// client, err := mongo.Connect(context.TODO(), clientOptions)
-	// if err != nil {
-	// 	log.Println("connect mongdb failed: ", err)
-	// }
-
-	// err = client.Ping(context.TODO(), nil)
-	// if err != nil {
-	// 	log.Println("check connect mongdb failed: ", err)
-	// } else {
-	// 	DbClient = client
-	// }
-
 	// 连接池
 	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("db_contect_timeout"))
 	defer cancel()
@@ -64,4 +52,25 @@ func InitDatabase() {
 		log.Println("connect mongdb failed: ", err)
 	}
 	Db = client.Database(viper.GetString("db_name"))
+
+	// 创建user集合
+	uCollection := Db.Collection("user")
+	// 创建zone集合
+	zCollection := Db.Collection("zone")
+
+	// 设置唯一索引
+	opts := options.Index().SetUnique(true)
+	if _, err = uCollection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
+		Keys:    bson.D{{Key: "name", Value: 1}},
+		Options: opts,
+	}); err != nil {
+		log.Println("设置user集合唯一索引失败", err)
+	}
+
+	if _, err = zCollection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
+		Keys:    bson.D{{Key: "zid", Value: 1}},
+		Options: opts,
+	}); err != nil {
+		log.Println("设置zone集合唯一索引失败", err)
+	}
 }
