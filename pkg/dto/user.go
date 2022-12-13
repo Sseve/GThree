@@ -4,7 +4,6 @@ import (
 	"GThree/pkg/models"
 	"GThree/pkg/utils"
 	"context"
-	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,6 +21,7 @@ type DUser struct {
 	UpdateTime string
 }
 
+// 添加用户
 func AddUserToDb(user models.UserAdd) bool {
 	u := DUser{
 		Name:       user.Name,
@@ -40,6 +40,7 @@ func AddUserToDb(user models.UserAdd) bool {
 	return true
 }
 
+// 删除用户
 func DelUserFromDb(name string) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -54,15 +55,27 @@ func DelUserFromDb(name string) bool {
 	return true
 }
 
+// 修改用户数据
 func UptUserToDb() {
 
 }
 
-func SelectUserFromDb(name string) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+// 查询多个用户
+func SelectUserFromDb() ([]*DUser, error) {
+	ctx1, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	result := utils.Db.Collection("user").FindOne(ctx, nil)
-	fmt.Println("select from db: ", result)
+	cur, err := utils.Db.Collection("user").Find(ctx1, bson.D{})
+	if err != nil {
+		return nil, err
+	}
+	var user []*DUser
+	defer cur.Close(ctx1)
+	ctx2, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err = cur.All(ctx2, &user); err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
 func CheckUserFromDb(name, password string) bool {
@@ -78,4 +91,18 @@ func CheckUserFromDb(name, password string) bool {
 		return false
 	}
 	return true
+}
+
+// 查询单个用户
+func GetUserFromDb(name string) (*DUser, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	fiter := bson.M{"name": name}
+	// opt := options.FindOne().SetProjection(bson.M{"name": 1})
+	var user DUser
+	err := utils.Db.Collection("user").FindOne(ctx, fiter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

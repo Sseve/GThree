@@ -24,10 +24,12 @@ func GetRouter() *gin.Engine {
 	user := route.Group("/api")
 	{
 		user.POST("/sign", apiUser.Sign)
+		user.Use(utils.JwtAuth())
 		user.POST("/user", apiUser.Add)
 		user.DELETE("/user/:name", apiUser.Delete)
 		user.PUT("/user", apiUser.Update)
-		user.GET("/user", apiUser.Select)
+		user.GET("/users", apiUser.Select)
+		user.GET("/user", apiUser.Check)
 	}
 	// 区服接口
 	apiZone := api.NewZone()

@@ -24,7 +24,7 @@ func (u *user) Sign(ctx *gin.Context) {
 		utils.Falured(ctx, "获取用户登录api接口数据失败", nil)
 		return
 	}
-	// 校验数据
+	// 校验用户数据
 	if !dto.CheckUserFromDb(u.MUSign.Name, u.MUSign.Password) {
 		utils.Falured(ctx, "用户名或密码错误", nil)
 		return
@@ -67,10 +67,24 @@ func (u *user) Delete(ctx *gin.Context) {
 
 // 更新用户
 func (u *user) Update(ctx *gin.Context) {
-
+	utils.Success(ctx, "更新用户成功", nil)
 }
 
-// 查询用户
+// 用户列表
 func (u *user) Select(ctx *gin.Context) {
+	user, err := dto.SelectUserFromDb()
+	if err != nil {
+		utils.Falured(ctx, "获取用户列表失败", nil)
+	}
+	utils.Success(ctx, "查询用户成功", user)
+}
 
+// 检查用户
+func (u *user) Check(ctx *gin.Context) {
+	name, _ := ctx.Get("name")
+	user, err := dto.GetUserFromDb(name.(string))
+	if err != nil {
+		utils.Falured(ctx, "获取单个用户信息失败", nil)
+	}
+	utils.Success(ctx, "校验数据成功", &user)
 }
