@@ -25,13 +25,6 @@ app_jwt_timeout: 24
 app_white_ips:
   - 127.0.0.1
   - 172.16.9.126
-# app接口白名单(在此列表中的uri,不需要验证token,直接放行)
-app_white_api:
-  - /api/sign
-  - /api/user/admin
-  - /api/user
-  - /api/zone
-  # - /api/host
   
 # 数据库地址
 db_url: mongodb://127.0.0.1:27017

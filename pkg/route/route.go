@@ -18,7 +18,6 @@ func GetRouter() *gin.Engine {
 	}
 	// 添加全局中间件
 	route.Use(utils.IpWhite())
-	route.Use(utils.ApiWhite())
 	// 用户接口
 	apiUser := api.Newuser()
 	user := route.Group("/api")

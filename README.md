@@ -5,7 +5,7 @@
   GThree是一个多区服游戏运维工具,可以进行游戏区服的更新,启停,状态检查等。
   技术栈: golang + gin + grpc
   server & client架构:
-  gtmaster接受web请求, 并通过grpc将请求转发到gtservant进行业务处理(多节点区服处理)
+  gtmaster接受web请求, 通过grpc远程调用gtservant进行业务处理(多节点区服处理)
 ```
 * *进度*
 ```

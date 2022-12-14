@@ -23,8 +23,8 @@ type ZoneResponse struct {
 	Result string
 }
 
-// 该函数的参数为区服信息
-func CallServant(zone models.Zone, ZoneResult chan ZoneResponse) {
+// rpc区服管理
+func ZoneServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 	// 加入认证
 	cert, _ := tls.LoadX509KeyPair(viper.GetString("app_pem_file"), viper.GetString("app_key_file"))
 	certPool := x509.NewCertPool()
@@ -51,12 +51,12 @@ func CallServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 	defer cancel()
 
 	// 请求grpc
-	resp, err := c.OptZone(ctx2, &service.ZoneRequest{Ip: zone.Ip, Zid: zone.ZId, Name: zone.Name, Target: zone.Targt, SvnVersion: zone.SvnVersion})
+	resp, err := c.OptZone(ctx2, &service.ZoneRequest{Ip: zone.Ip, Zid: zone.Zid, Name: zone.Name, Target: zone.Targt, SvnVersion: zone.SvnVersion})
 	if err != nil {
 		log.Println("Request gtservant failed: ", err)
 	}
 	r := ZoneResponse{
-		Zid:    zone.ZId,
+		Zid:    zone.Zid,
 		Ip:     zone.Ip,
 		Name:   zone.Name,
 		Target: zone.Targt,

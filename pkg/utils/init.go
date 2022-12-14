@@ -56,7 +56,7 @@ func InitDatabase() {
 	// 创建user集合
 	uCollection := Db.Collection("user")
 	// 创建zone集合
-	zCollection := Db.Collection("zone")
+	// zCollection := Db.Collection("zone")
 
 	// 设置唯一索引
 	opts := options.Index().SetUnique(true)
@@ -67,10 +67,10 @@ func InitDatabase() {
 		log.Println("设置user集合唯一索引失败", err)
 	}
 
-	if _, err = zCollection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
-		Keys:    bson.D{{Key: "zid", Value: 1}},
-		Options: opts,
-	}); err != nil {
-		log.Println("设置zone集合唯一索引失败", err)
-	}
+	// if _, err = zCollection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
+	// 	Keys:    bson.D{{Key: "zid", Value: 1}},
+	// 	Options: opts,
+	// }); err != nil {
+	// 	log.Println("设置zone集合唯一索引失败", err)
+	// }
 }
