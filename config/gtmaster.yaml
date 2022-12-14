@@ -3,6 +3,8 @@
 
 # agtmaster运行模式[true|false]
 app_debug: true
+# app以守护进程运行[true|false]
+app_daemon: false
 # app监听地址
 app_addr: 0.0.0.0:8888
 # 远程调用端口

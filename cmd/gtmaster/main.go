@@ -1,6 +1,8 @@
 package main
 
 import (
+	"GThree/pkg/route"
+	"GThree/pkg/utils"
 	"context"
 	"log"
 	"net/http"
@@ -8,9 +10,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"GThree/pkg/route"
-	"GThree/pkg/utils"
 
 	"github.com/spf13/viper"
 )
@@ -22,6 +21,17 @@ func init() {
 }
 
 func main() {
+	if viper.GetBool("app_daemon") {
+		// 以守护进程方式启动
+		utils.Daemon()
+	}
+
+	// 运行gtmaster app
+	startApp()
+}
+
+// 运行gin实例
+func startApp() {
 	serve := http.Server{
 		Addr:         viper.GetString("app_addr"),
 		Handler:      route.GetRouter(),

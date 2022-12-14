@@ -15,11 +15,11 @@ GT_PATH=$(cd $(dirname "$0") && pwd)
 
 # 启动gtmaster程序
 gtmaster_start(){
-  ${GT_PATH}/gtmaster >/dev/null 2>&1 &
+  ${GT_PATH}/gtmaster
   if [ $? -eq 0 ];then
-    sleep 5
+    sleep 3
     echo "gtmaster start success"
-    pgrep -l gtmaster | awk '{print $1}' >${GT_PATH}/pid.txt
+    pgrep gtmaster >${GT_PATH}/pid.txt
   else
     echo "gtmaster start failed"
   fi

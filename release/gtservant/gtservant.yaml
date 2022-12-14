@@ -1,6 +1,8 @@
 ---
 ## gtservant的配置文件
 
+# app以守护进程运行[true|false]
+app_daemon: false
 # app监听地址
 app_addr: 0.0.0.0:8887
 # app证书

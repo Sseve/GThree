@@ -15,11 +15,11 @@ GT_PATH=$(cd $(dirname "$0") && pwd)
 
 # 启动gtservant程序
 gtservant_start(){
-  ${GT_PATH}/gtservant >/dev/null 2>&1 &
+  ${GT_PATH}/gtservant
   if [ $? -eq 0 ];then
-    sleep 5
+    sleep 3
     echo "gtservant start success"
-    pgrep -l gtservant | awk '{print $1}' >${GT_PATH}/pid.txt
+    pgrep gtservant >${GT_PATH}/pid.txt
   else
     echo "gtservant start failed"
   fi
