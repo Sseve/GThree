@@ -27,6 +27,11 @@
     └── gtservant.yaml
 ```
 
+* *运行*
+```
+  - 使用manage.sh脚本管理程序
+```
+
 <!-- 
 * *生成grpc相关代码*
 > protoc --go_out=../service --go_opt=paths=source_relative --go-grpc_out=../service/ --go-grpc_opt=paths=source_relative *.proto 

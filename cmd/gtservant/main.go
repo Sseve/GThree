@@ -7,6 +7,7 @@ import (
 
 func init() {
 	utils.InitConfig("gtservant")
+	utils.InitRedis()
 }
 
 func main() {

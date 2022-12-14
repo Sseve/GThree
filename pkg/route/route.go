@@ -34,6 +34,8 @@ func GetRouter() *gin.Engine {
 	apiZone := api.NewZone()
 	zone := route.Group("/api")
 	{
+		zone.Use(utils.JwtAuth())
+		zone.GET("/zone", apiZone.Result)
 		zone.POST("/zone", apiZone.Manage)
 	}
 

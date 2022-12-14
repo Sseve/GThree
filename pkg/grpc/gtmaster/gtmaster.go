@@ -37,7 +37,7 @@ func ZoneServant(zone models.Zone, ZoneResult chan ZoneResponse) {
 	})
 
 	address := zone.Ip + viper.GetString("app_rpc_port")
-	ctx1, cancel := context.WithTimeout(context.Background(), time.Second*60)
+	ctx1, cancel := context.WithDeadline(context.Background(), time.Now().Add(time.Second*3))
 	defer cancel()
 	conn, err := grpc.DialContext(ctx1, address, grpc.WithTransportCredentials(creds))
 	if err != nil {

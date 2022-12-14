@@ -18,6 +18,7 @@ import (
 func init() {
 	utils.InitConfig("gtmaster")
 	utils.InitDatabase()
+	utils.InitRedis()
 }
 
 func main() {

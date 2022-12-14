@@ -4,6 +4,7 @@ import (
 	"GThree/pkg/models"
 	"GThree/pkg/utils"
 	"context"
+	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,7 +24,7 @@ type DZone struct {
 func AddZoneToDb(zones models.ZoneOpt) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	documents := make([]interface{}, 1)
+	documents := make([]interface{}, 0, len(zones.Zone))
 	for _, zone := range zones.Zone {
 		documents = append(documents, DZone{
 			Zid:        zone.Zid,
@@ -35,6 +36,7 @@ func AddZoneToDb(zones models.ZoneOpt) bool {
 		})
 	}
 	if _, err := utils.Db.Collection("zone").InsertMany(ctx, documents); err != nil {
+		log.Println(err)
 		return false
 	}
 	return true

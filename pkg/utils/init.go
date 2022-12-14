@@ -6,14 +6,20 @@ import (
 	"os"
 
 	"github.com/fsnotify/fsnotify"
+	// "github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var Db *mongo.Database
+var (
+	Db  *mongo.Database
+	RDS *redis.Client
+)
 
+// 初始化配置
 func InitConfig(name string) {
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -40,6 +46,7 @@ func InitConfig(name string) {
 	}()
 }
 
+// 初始化mongo数据库
 func InitDatabase() {
 	// 连接池
 	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("db_contect_timeout"))
@@ -73,4 +80,17 @@ func InitDatabase() {
 	// }); err != nil {
 	// 	log.Println("设置zone集合唯一索引失败", err)
 	// }
+}
+
+// 初始化redis
+func InitRedis() {
+	rds := redis.NewClient(&redis.Options{
+		Addr:     viper.GetString("rds_url"),
+		Username: viper.GetString("rds_user"),
+		Password: viper.GetString("rds_pass"),
+		DB:       viper.GetInt("rds_db"),
+		PoolSize: 1000,
+	})
+
+	RDS = rds
 }

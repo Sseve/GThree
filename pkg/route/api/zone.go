@@ -49,3 +49,8 @@ func (z *zone) Manage(ctx *gin.Context) {
 	// 成功返回
 	utils.RespSuccess(ctx, "区服操作成功", data)
 }
+
+// 区服操作结果(redis)
+func (z *zone) Result(ctx *gin.Context) {
+
+}

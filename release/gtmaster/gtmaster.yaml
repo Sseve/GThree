@@ -26,7 +26,7 @@ app_white_ips:
   - 127.0.0.1
   - 172.16.9.126
   
-# 数据库地址
+# mongo数据库配置
 db_url: mongodb://127.0.0.1:27017
 # 数据库名
 db_name: gthree
@@ -38,3 +38,9 @@ db_pass: root123
 db_pool_size: 10
 # 数据库连接超时时间
 db_contect_timeout: 10
+
+# redis配置
+rds_url: 127.0.0.1:6379
+rds_user: username
+rds_pass: password
+rds_db: 0
