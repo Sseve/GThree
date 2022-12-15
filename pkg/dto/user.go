@@ -4,7 +4,6 @@ import (
 	"GThree/pkg/models"
 	"GThree/pkg/utils"
 	"context"
-	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -91,7 +90,6 @@ func UptUserToDb(name string, user models.UserMod) bool {
 	upt := bson.M{"$set": umap}
 	var u DUser
 	if err := utils.Db.Collection("user").FindOneAndUpdate(ctx, filter, upt).Decode(&u); err != nil {
-		log.Println(err)
 		return false
 	}
 	return true

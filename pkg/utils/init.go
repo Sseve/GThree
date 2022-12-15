@@ -85,9 +85,9 @@ func InitDatabase() {
 // 初始化redis
 func InitRedis() {
 	rds := redis.NewClient(&redis.Options{
-		Addr:     viper.GetString("rds_url"),
-		Username: viper.GetString("rds_user"),
-		Password: viper.GetString("rds_pass"),
+		Addr: viper.GetString("rds_url"),
+		// Username: viper.GetString("rds_user"),
+		// Password: viper.GetString("rds_pass"),
 		DB:       viper.GetInt("rds_db"),
 		PoolSize: 1000,
 	})

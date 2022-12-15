@@ -30,6 +30,7 @@ func (u *user) Sign(ctx *gin.Context) {
 		utils.RespFalured(ctx, "用户名或密码错误", nil)
 		return
 	}
+	utils.Logger.Info("用户: ", u.MUSign.Name, "登录成功")
 	// 创建token
 	token, err := utils.CreateToken(u.MUSign.Name)
 	if err != nil {
@@ -50,6 +51,7 @@ func (u *user) Add(ctx *gin.Context) {
 		utils.RespFalured(ctx, "添加用户失败,或许用户已经存在", nil)
 		return
 	}
+	utils.Logger.Info("用户: ", u.MUAdd.Name, "添加成功")
 	utils.RespSuccess(ctx, "添加用户成功", nil)
 }
 
@@ -63,6 +65,7 @@ func (u *user) Delete(ctx *gin.Context) {
 		utils.RespFalured(ctx, "删除用户失败", nil)
 		return
 	}
+	utils.Logger.Info("用户: ", name, "删除成功")
 	utils.RespSuccess(ctx, "删除用户成功", nil)
 }
 
@@ -76,6 +79,7 @@ func (u *user) Update(ctx *gin.Context) {
 		utils.RespFalured(ctx, "更新用户失败", nil)
 		return
 	}
+	utils.Logger.Info("用户: ", u.MUUpt.Name, "更新成功")
 	utils.RespSuccess(ctx, "更新用户成功", nil)
 }
 

@@ -25,10 +25,12 @@ func (z *zone) Manage(ctx *gin.Context) {
 		utils.RespFalured(ctx, "获取区服接口数据失败", err)
 		return
 	}
-	// 数据入库
-	if !dto.AddZoneToDb(z.MZOpt) {
-		utils.RespFalured(ctx, "区服信息入库失败", nil)
-		return
+	target := z.MZOpt.Zone[0].Targt
+	if target == "add" {
+		if !dto.AddZoneToDb(z.MZOpt) {
+			utils.RespFalured(ctx, "区服信息入库失败", nil)
+			return
+		}
 	}
 	// 远程调用
 	var wg sync.WaitGroup
@@ -52,5 +54,11 @@ func (z *zone) Manage(ctx *gin.Context) {
 
 // 区服操作结果(redis)
 func (z *zone) Result(ctx *gin.Context) {
-
+	name := ctx.Param("name")
+	res, err := dto.GetZResToRds(name)
+	if err != nil {
+		utils.RespFalured(ctx, "为获取到区服操作结果", nil)
+		return
+	}
+	utils.RespSuccess(ctx, res, nil)
 }

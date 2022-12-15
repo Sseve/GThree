@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+///////////////////////// mongo /////////////////////////
 // 区服数据库模型
 type DZone struct {
 	Zid        string
@@ -74,4 +75,32 @@ func SelectZoneFromDb(zid, name string) (*DZone, error) {
 		return nil, err
 	}
 	return &zone, nil
+}
+
+//////////////////////////// redis /////////////////////////////
+// 操作入库
+func SetZResToRds(name string, resp interface{}) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	res, err := utils.RDS.Set(ctx, name, resp, -1).Result()
+	if err != nil {
+		utils.Logger.Error("Rds记录结果数据出错: ", err)
+	}
+	log.Println("Rds记录结果数据成功: ", res)
+}
+
+// 操作出库
+func GetZResToRds(name string) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	res, err := utils.RDS.Get(ctx, name).Result()
+	if err != nil {
+		utils.Logger.Info("Rds记录结果数据出错: ", err)
+		return "", nil
+	}
+	if res != "" {
+		utils.RDS.Del(ctx, name)
+		utils.Logger.Info("Rds记录结果数据删除: ", name)
+	}
+	return res, nil
 }

@@ -16,7 +16,7 @@ func Daemon() {
 		syscall.Umask(0)
 		return
 	}
-	fd, err := os.OpenFile("/dev/null", os.O_WRONLY|os.O_APPEND, 0644)
+	fd, err := os.OpenFile("logs/app.log", os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		log.Println(err)
 		return
