@@ -51,7 +51,7 @@ case "$1" in
         gtservant "$1"
         ;;
     *)
-    echo "Usage: $0 [server|client]"
+    echo "Usage: $0 [gtmaster|gtservant]"
     echo "    gtmaster     构建gtmaster服务"
     echo "    gtservant    构建gtservant服务"    
     exit 1
