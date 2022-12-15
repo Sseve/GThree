@@ -18,7 +18,6 @@ func Newuser() *user {
 	return new(user)
 }
 
-// 用户登录
 func (u *user) Sign(ctx *gin.Context) {
 	// 获取接口数据
 	if err := ctx.BindJSON(&u.MUSign); err != nil {
